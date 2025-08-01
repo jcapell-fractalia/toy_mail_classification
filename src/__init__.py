@@ -9,14 +9,14 @@ __version__ = "0.1.0"
 __author__ = "Joan Capell"
 __email__ = "joan.capell@example.com"
 
-from .models import BaseModel
 from .data import preprocessing
-from .features import text_features
 from .evaluation import metrics
+from .features import text_features
+from .models import BaseModel
 
 __all__ = [
     "BaseModel",
     "preprocessing",
-    "text_features", 
+    "text_features",
     "metrics",
 ]

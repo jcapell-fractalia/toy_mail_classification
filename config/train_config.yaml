@@ -1,0 +1,99 @@
+# Training Configuration for Email Classification
+
+# Data settings
+data:
+  train_path: "data/dataset_procesado-gama-mayo-v4.csv"
+  test_size: 0.2
+  validation_size: 0.2
+  random_state: 42
+  text_column: "correo_limpio"  # Name of the column containing email text
+  label_column: "se_gestiona"  # Name of the column containing labels
+  
+# Preprocessing settings
+preprocessing:
+  language: "spanish"
+  use_stemming: false
+  use_lemmatization: true
+  remove_stopwords: true
+  min_word_length: 2
+  
+# Feature extraction settings
+features:
+  include_statistical: true
+  include_tfidf: true
+  include_embeddings: false
+  tfidf_max_features: 5000
+  tfidf_ngram_range: [1, 2]
+  embedding_model: "all-MiniLM-L6-v2"
+  
+# Model settings
+model:
+  ensemble_type: "voting"  # "voting" or "stacking"
+  voting: "soft"  # "hard" or "soft"
+  use_catboost: true
+  use_lightgbm: true
+  use_random_forest: true
+  
+  # Individual model parameters
+  catboost:
+    iterations: 100
+    learning_rate: 0.1
+    depth: 6
+    verbose: false
+    random_seed: 42
+    
+  lightgbm:
+    n_estimators: 100
+    learning_rate: 0.1
+    max_depth: 6
+    random_state: 42
+    verbose: -1
+    
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    random_state: 42
+    n_jobs: -1
+    
+# Hyperparameter optimization settings
+hyperopt:
+  enabled: false
+  n_trials: 50
+  timeout: 3600  # 1 hour
+  
+  # Parameter search spaces
+  search_spaces:
+    catboost_learning_rate: [0.01, 0.3]
+    catboost_depth: [4, 10]
+    lightgbm_learning_rate: [0.01, 0.3]
+    lightgbm_max_depth: [4, 15]
+    rf_n_estimators: [50, 200]
+    rf_max_depth: [5, 20]
+    
+# Training settings
+training:
+  cross_validation: true
+  cv_folds: 5
+  stratify: true
+  shuffle: true
+  
+# Evaluation settings
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1_score", "roc_auc"]
+  plot_confusion_matrix: true
+  plot_roc_curve: true
+  plot_feature_importance: true
+  
+# Output settings
+output:
+  model_dir: "models"
+  plots_dir: "plots"
+  logs_dir: "logs"
+  save_preprocessor: true
+  save_feature_extractor: true
+  
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/training.log"

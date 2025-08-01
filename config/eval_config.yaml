@@ -1,0 +1,62 @@
+# Evaluation Configuration for Email Classification
+
+# Data settings
+data:
+  test_path: "data/test_data.csv"  # Path to test dataset
+  text_column: "text"  # Name of the column containing email text
+  label_column: "label"  # Name of the column containing labels
+  
+# Model settings
+model:
+  model_path: "models/best_model.pkl"
+  preprocessor_path: "models/preprocessor.pkl"
+  feature_extractor_path: "models/feature_extractor.pkl"
+  
+# Evaluation settings
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1_score", "roc_auc", "pr_auc"]
+  class_names: null  # Will be inferred from data if not provided
+  
+  # Visualization settings
+  plots:
+    confusion_matrix:
+      enabled: true
+      normalize: false
+      figsize: [10, 8]
+      save_path: "plots/confusion_matrix.png"
+      
+    roc_curve:
+      enabled: true
+      figsize: [10, 8]
+      save_path: "plots/roc_curve.png"
+      
+    precision_recall_curve:
+      enabled: true
+      figsize: [10, 8]
+      save_path: "plots/pr_curve.png"
+      
+    feature_importance:
+      enabled: true
+      top_n: 20
+      figsize: [12, 8]
+      save_path: "plots/feature_importance.png"
+  
+  # Detailed analysis
+  detailed_analysis:
+    enabled: true
+    misclassified_samples: true
+    confidence_distribution: true
+    class_distribution: true
+    
+# Output settings
+output:
+  results_dir: "results"
+  save_predictions: true
+  save_probabilities: true
+  report_format: "json"  # "json", "yaml", or "txt"
+  
+# Logging settings
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/evaluation.log"
